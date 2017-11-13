@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/_ENJMINVR/Scene/Animator.unity
+  isLoaded: 1
+  isActive: 1
