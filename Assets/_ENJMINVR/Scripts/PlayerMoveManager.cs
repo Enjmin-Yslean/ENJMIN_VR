@@ -25,11 +25,11 @@ public class PlayerMoveManager : MonoBehaviour {
         float leftYAxis = Input.GetAxis("Left_Y_Axis");
         float AngleSign = Vector3.Cross(m_Player.transform.forward, m_Player.hmdTransform.forward).y < 0 ? -1 : 1;
         float angle = AngleSign * Quaternion.Angle(m_Player.transform.rotation, m_Player.hmdTransform.rotation);
-        Debug.Log(leftYAxis);
+
         if (Mathf.Abs(leftYAxis) > m_MovementPadding)
         {
             Turn(angle);
-            Move(m_Player.transform.forward * leftYAxis, leftYAxis * m_MoveSpeed);
+            Move(m_Player.transform.forward * leftYAxis, Mathf.Abs(leftYAxis * m_MoveSpeed)); //Vitesse toujours positive
         }
     }
 
@@ -43,11 +43,5 @@ public class PlayerMoveManager : MonoBehaviour {
         Quaternion rot = Quaternion.Euler(0, m_Player.hmdTransform.rotation.eulerAngles.y, 0);
         m_AngleSpeed = Quaternion.Angle(m_Player.transform.rotation, rot);
         m_Player.transform.rotation = Quaternion.RotateTowards(m_Player.transform.rotation, rot, Time.deltaTime * m_AngleSpeed) ;
-    }
-
-    void OnDrawGizmos()
-    {
-        if(m_Player != null)
-            Gizmos.DrawLine(transform.position, new Vector3(0, m_Player.hmdTransform.rotation.eulerAngles.y, 0));
     }
 }
