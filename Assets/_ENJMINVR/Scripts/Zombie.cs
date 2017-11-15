@@ -14,6 +14,7 @@ public class Zombie : MonoBehaviour {
     public float m_VisionDistance = 10;
     public float m_AttackZone = 1.5f;
 
+    public PlayerManager m_PlayerManager;
     private Player m_Player;
     private float m_DistanceToPlayer = 0;
     private Transform m_ActualTarget = null;
@@ -55,7 +56,7 @@ public class Zombie : MonoBehaviour {
     {
         if (target != null)
         {
-            Debug.Log("Move");
+            //Debug.Log("Move");
             StopWalking();
             m_IsMoving = true;
             m_Animator.SetTrigger("Move");
@@ -93,7 +94,7 @@ public class Zombie : MonoBehaviour {
 
         while (m_IsHuntingPlayer)
         {
-            Debug.Log("Hunt");
+            //Debug.Log("Hunt");
             if (m_DistanceToPlayer <= m_AttackZone && !m_IsAttacking)
             {
                 Attack();
@@ -111,17 +112,21 @@ public class Zombie : MonoBehaviour {
 
     void Attack()
     {
-        Debug.Log("Attack");
-        StopWalking();
-        m_IsMoving = false;
-        LookAtTarget();
-        m_Animator.SetTrigger("Attack");
-        m_IsAttacking = true;
+        if (m_PlayerManager.isAlive)
+        {
+            //Debug.Log("Attack");
+            StopWalking();
+            m_IsMoving = false;
+            LookAtTarget();
+            m_Animator.SetTrigger("Attack");
+            m_PlayerManager.Hurt(1);
+            m_IsAttacking = true;
+        }
     }
 
     void Stop()
     {
-        Debug.Log("Stop");
+        //Debug.Log("Stop");
         m_IsMoving = false;
         StopAllCoroutines();
         m_IsHuntingPlayer = false;
