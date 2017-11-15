@@ -23,6 +23,8 @@ public class PlayerManager : MonoBehaviour {
     private bool m_Alive = true;
     public bool isAlive { get { return m_Alive; } }
 
+    private bool m_Invincible = false;
+
     void Awake()
     {
         InitializePlayer();
@@ -71,13 +73,16 @@ public class PlayerManager : MonoBehaviour {
 
     public void Hurt(int damage)
     {
-        m_Life -= damage;
-        if (m_Life <= 0)
+        if (!m_Invincible)
         {
-            GameOver();
+            m_Life -= damage;
+            if (m_Life <= 0)
+            {
+                GameOver();
+            }
+            StartCoroutine(Rumble(m_DefaultRumbleTime));
+            StartCoroutine(HeadCubeBlink());
         }
-        StartCoroutine(Rumble(m_DefaultRumbleTime));
-        StartCoroutine(HeadCubeBlink());
     }
 
     void GameOver()
@@ -86,6 +91,15 @@ public class PlayerManager : MonoBehaviour {
         m_Alive = false;
         m_Player.headCollider.enabled = false;
         ShowCanvas("YOU DIED");
+    }
+
+    public void Victory()
+    {
+        m_Invincible = true;
+
+        m_Player.headCollider.enabled = false;
+
+        ShowCanvas("YOU ESCAPED");
     }
 
 #region Vibrations

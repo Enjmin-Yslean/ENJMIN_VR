@@ -146,7 +146,6 @@ public class Zombie : MonoBehaviour {
             RaycastHit hit;
             Vector3 ToPlayerDir = (m_Player.hmdTransform.position - transform.position).normalized;
             Physics.Raycast(transform.position, ToPlayerDir, out hit, m_VisionDistance);
-
             if (hit.collider != m_Player.headCollider)
                 return false;
             else

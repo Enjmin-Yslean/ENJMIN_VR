@@ -10,6 +10,7 @@ public class VictoryZone : MonoBehaviour {
         if(Player.instance != null && other == Player.instance.headCollider)
         {
             Debug.Log("Victory !!!");
+            Player.instance.gameObject.SendMessage("Victory");
         }
     }
 }
