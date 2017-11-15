@@ -9,6 +9,7 @@ public class PlayerManager : MonoBehaviour {
 
     private Player m_Player;
     public GameObject m_PlayerUIPanel;
+    public GameObject m_HeadCube;
 
     public float m_MovementPadding = 0.3f;
 
@@ -17,18 +18,25 @@ public class PlayerManager : MonoBehaviour {
     public float m_AngleSpeed = 1;
 
     public float m_DefaultRumbleTime = 0.1f;
+    public float m_HeadCubeBlinkDuration = 0.3f;
 
     private bool m_Alive = true;
     public bool isAlive { get { return m_Alive; } }
 
     void Awake()
     {
-        ShowCanvas(false);
+        InitializePlayer();
     }
 	// Use this for initialization
 	void Start ()
     {
         m_Player = Player.instance;
+    }
+
+    void InitializePlayer()
+    {
+        m_HeadCube.SetActive(false);
+        ShowCanvas(false);
     }
 
     // Update is called once per frame
@@ -53,9 +61,12 @@ public class PlayerManager : MonoBehaviour {
 
     void Turn(float angle)
     {
-        Quaternion rot = Quaternion.Euler(0, m_Player.hmdTransform.rotation.eulerAngles.y, 0);
-        m_AngleSpeed = Quaternion.Angle(m_Player.transform.rotation, rot);
-        m_Player.transform.rotation = Quaternion.RotateTowards(m_Player.transform.rotation, rot, Time.deltaTime * m_AngleSpeed) ;
+        if (m_Alive)
+        {
+            Quaternion rot = Quaternion.Euler(0, m_Player.hmdTransform.rotation.eulerAngles.y, 0);
+            m_AngleSpeed = Quaternion.Angle(m_Player.transform.rotation, rot);
+            m_Player.transform.rotation = Quaternion.RotateTowards(m_Player.transform.rotation, rot, Time.deltaTime * m_AngleSpeed);
+        }
     }
 
     public void Hurt(int damage)
@@ -66,6 +77,7 @@ public class PlayerManager : MonoBehaviour {
             GameOver();
         }
         StartCoroutine(Rumble(m_DefaultRumbleTime));
+        StartCoroutine(HeadCubeBlink());
     }
 
     void GameOver()
@@ -122,5 +134,21 @@ public class PlayerManager : MonoBehaviour {
         m_PlayerUIPanel.gameObject.SetActive(show);
         Text tempText = m_PlayerUIPanel.GetComponentInChildren<Text>();
         tempText.text = text;
+    }
+
+    float m_HeadCubeTimer = 0;
+
+    IEnumerator HeadCubeBlink()
+    {
+        m_HeadCube.SetActive(true);
+        while (m_HeadCubeTimer < m_HeadCubeBlinkDuration)
+        {
+            m_HeadCubeTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        m_HeadCubeTimer = 0;
+        m_HeadCube.SetActive(false);
+        yield return null;
     }
 }
