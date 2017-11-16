@@ -6,6 +6,7 @@ using Valve.VR.InteractionSystem;
 public class Zombie : MonoBehaviour {
 
 	public Animator m_Animator;
+    public AudioSource m_AudioSource;
 
 	public float m_Life = 1;
 	public float m_WalkSpeed = 1;
@@ -92,6 +93,7 @@ public class Zombie : MonoBehaviour {
     IEnumerator Hunt()
     {
         Move(m_Player.hmdTransform);
+        m_AudioSource.Play();
 
         while (m_IsHuntingPlayer)
         {

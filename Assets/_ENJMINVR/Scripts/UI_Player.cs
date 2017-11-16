@@ -7,7 +7,7 @@ public class UI_Player : MonoBehaviour {
 
     public Image coeur;
     public GameObject panel;
-    public int nbCoeur = 3;
+    public int m_NbHeart;
 
     private int actual;
     private List<Image> coeurs = new List<Image>();
@@ -15,7 +15,7 @@ public class UI_Player : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-        Reset_UI();
+        //Reset_UI();
     }
 	
 	// Update is called once per frame
@@ -24,39 +24,28 @@ public class UI_Player : MonoBehaviour {
 		
 	}
 
-    public void PerteCoeur()
-    {
-        coeurs.Remove(coeurs[nbCoeur-1]);
-        Destroy(coeurs[nbCoeur - 1]);
-        nbCoeur -= 1;
-        GameOver();
+    public void PerteCoeur(int newHeartNb)
+    { 
+        Destroy(coeurs[newHeartNb]);
+        coeurs.RemoveAt(newHeartNb);
+        m_NbHeart = newHeartNb;
     }
 
-    public bool GameOver ()
+    public void InitializeUI(int nbHeart)
     {
-        if (nbCoeur != 0)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
+        m_NbHeart = nbHeart;
 
-    void Reset_UI()
-    {
-        actual = nbCoeur;
         if (coeurs.Count != 0)
         {
-            for (int i = 0; i <= coeurs.Count; i++)
+            for (int i = 0; i <= coeurs.Count - 1; i++)
             {
-                Destroy(coeurs[i-1]);
+                Destroy(coeurs[i]);
             }
+            coeurs.Clear();
         }
         
-        coeurs.Clear();
-        for (int i = 0; i <= nbCoeur - 1; i++)
+
+        for (int i = 0; i <= nbHeart - 1; i++)
         {
             coeurs.Add(Instantiate(coeur, panel.transform));
         }

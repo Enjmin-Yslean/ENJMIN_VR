@@ -6,6 +6,7 @@ public class SpawnlightBehaviour : MonoBehaviour {
 
     public GameObject m_Spawnlight;
     public PlayerManager m_PlayerManager;
+    public ParticleSystem m_ParticleSystem;
 
     public float m_TimeBeforeBlinking = 2f;
     public float m_BlinkingTime = 3f;
@@ -39,9 +40,10 @@ public class SpawnlightBehaviour : MonoBehaviour {
             {
                 m_Spawnlight.SetActive(true);
             }
-            if (m_Timer > m_BlinkingTime / 1.5f && m_Timer < m_BlinkingTime / 1f)
+            if (m_Timer > m_BlinkingTime / 1.5f && m_Timer < m_BlinkingTime / 1.4f)
             {
                 m_Spawnlight.SetActive(false);
+                m_ParticleSystem.Play();
             }
              m_Timer += Time.deltaTime;
             yield return null;

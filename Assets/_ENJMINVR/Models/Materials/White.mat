@@ -75,6 +75,6 @@ Material:
     - g_flCornerAdjust: 0.5
     - g_flOutlineWidth: 0.005
     m_Colors:
-    - _Color: {r: 1, g: 0.06617643, b: 0.06617643, a: 0.784}
+    - _Color: {r: 1, g: 0.06617638, b: 0.06617638, a: 0.78431374}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - g_vOutlineColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}

@@ -11,10 +11,11 @@ public class PlayerManager : MonoBehaviour {
     public GameObject m_PlayerUIPanel;
     public GameObject m_HeadCube;
     public GameObject m_SpotLight;
+    public UI_Player m_PlayerUI;
 
     public float m_MovementPadding = 0.3f;
 
-    public float m_Life = 3;
+    public int m_Life = 3;
     public float m_MoveSpeed = 1;
     private float m_AngleSpeed = 1;
     public AnimationCurve m_AngleSpeedCurve;
@@ -42,6 +43,7 @@ public class PlayerManager : MonoBehaviour {
         m_HeadCube.SetActive(false);
         ShowCanvas(false);
         m_SpotLight.SetActive(false);
+        m_PlayerUI.InitializeUI(m_Life);
     }
 
     // Update is called once per frame
@@ -80,6 +82,7 @@ public class PlayerManager : MonoBehaviour {
         if (!m_Invincible)
         {
             m_Life -= damage;
+            m_PlayerUI.PerteCoeur(m_Life);
             if (m_Life <= 0)
             {
                 GameOver();
