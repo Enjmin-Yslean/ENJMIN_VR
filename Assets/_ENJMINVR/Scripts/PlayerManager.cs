@@ -10,12 +10,14 @@ public class PlayerManager : MonoBehaviour {
     private Player m_Player;
     public GameObject m_PlayerUIPanel;
     public GameObject m_HeadCube;
+    public GameObject m_SpotLight;
 
     public float m_MovementPadding = 0.3f;
 
     public float m_Life = 3;
     public float m_MoveSpeed = 1;
-    public float m_AngleSpeed = 1;
+    private float m_AngleSpeed = 1;
+    public AnimationCurve m_AngleSpeedCurve;
 
     public float m_DefaultRumbleTime = 0.1f;
     public float m_HeadCubeBlinkDuration = 0.3f;
@@ -39,6 +41,7 @@ public class PlayerManager : MonoBehaviour {
     {
         m_HeadCube.SetActive(false);
         ShowCanvas(false);
+        m_SpotLight.SetActive(false);
     }
 
     // Update is called once per frame
@@ -65,8 +68,9 @@ public class PlayerManager : MonoBehaviour {
     {
         if (m_Alive)
         {
-            Quaternion rot = Quaternion.Euler(0, m_Player.hmdTransform.rotation.eulerAngles.y, 0);
-            m_AngleSpeed = Quaternion.Angle(m_Player.transform.rotation, rot);
+            float yRotation = m_Player.hmdTransform.rotation.eulerAngles.y;
+            Quaternion rot = Quaternion.Euler(0, yRotation, 0);
+            m_AngleSpeed = m_AngleSpeedCurve.Evaluate(Quaternion.Angle(m_Player.transform.rotation, rot)/180) * 180;
             m_Player.transform.rotation = Quaternion.RotateTowards(m_Player.transform.rotation, rot, Time.deltaTime * m_AngleSpeed);
         }
     }
@@ -164,5 +168,10 @@ public class PlayerManager : MonoBehaviour {
         m_HeadCubeTimer = 0;
         m_HeadCube.SetActive(false);
         yield return null;
+    }
+
+    public void TurnLight(bool onOff)
+    {
+        m_SpotLight.SetActive(onOff);
     }
 }
