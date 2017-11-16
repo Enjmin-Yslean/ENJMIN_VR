@@ -14,7 +14,7 @@ public class Zombie : MonoBehaviour {
     public float m_VisionDistance = 10;
     public float m_AttackZone = 1.5f;
 
-    public PlayerManager m_PlayerManager;
+    private PlayerManager m_PlayerManager;
     private Player m_Player;
     private float m_DistanceToPlayer = 0;
     private Transform m_ActualTarget = null;
@@ -27,6 +27,7 @@ public class Zombie : MonoBehaviour {
 	void Start ()
     {
         m_Player = Player.instance;
+        m_PlayerManager = m_Player.GetComponent<PlayerManager>();
         Stop();
     }
 	

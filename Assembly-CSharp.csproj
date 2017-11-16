@@ -151,6 +151,7 @@
      <Compile Include="Assets\XInputDotNet\Examples\XInputTestCS.cs" />
      <Compile Include="Assets\_ENJMINVR\Scripts\PlayerManager.cs" />
      <Compile Include="Assets\_ENJMINVR\Scripts\SpawnlightBehaviour.cs" />
+     <Compile Include="Assets\_ENJMINVR\Scripts\UI_Player.cs" />
      <Compile Include="Assets\_ENJMINVR\Scripts\VictoryZone.cs" />
      <Compile Include="Assets\_ENJMINVR\Scripts\Zombie.cs" />
      <None Include="Assets\XInputDotNet\Docs.txt" />
